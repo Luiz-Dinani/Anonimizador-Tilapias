@@ -6,12 +6,13 @@ def lerArquivo(nomeArquivo):
     csvLido = csv.reader(arquivo)
     return csvLido
 
-def anonimizarDados(nomeEscola, cpf, rg, nomeCompletoCliente):
-    endereco = mapa.procurar(nomeEscola)
+def anonimizarDados(cpf, rg, nomeCompletoCliente, cep):
+    #endereco = mapa.procurar(nomeEscola)
     cpf_oculto = cpf[:3] + "*" * (len(cpf)-4) + cpf[len(cpf)-1:]
     rg_oculto = rg[:2] + "*" * (len(rg)-3) + rg[len(rg)-1:]
     nomesCliente = nomeCompletoCliente.split()
-    
+    cep_oculto = cep[:2] + "*" * (len(cep)-2) + cep[len(cep)-1:]
+
     if len(nomesCliente) <= 2:
         nomesCliente[-1] = len(nomesCliente[-1]) * "*"
     else:
@@ -22,22 +23,21 @@ def anonimizarDados(nomeEscola, cpf, rg, nomeCompletoCliente):
             i += 1
     nome_oculto = " ".join(nomesCliente)
     
-    dados_ocultos = [nome_oculto, cpf_oculto, rg_oculto, endereco]
+    dados_ocultos = [nome_oculto, cpf_oculto, rg_oculto, cep_oculto]
     return dados_ocultos
 
-
 def main():
-    nomeArquivo = "rejeitados-fazenda-atrib-inicial-2021-1-605-casos.csv"
+    nomeArquivo = "clientes_exposto.csv"
     arquivo = lerArquivo(nomeArquivo)
     next(arquivo) #Pula o cabeçalho
 
     with open("arquivoAnonimizado.csv", mode="w", newline='') as anonimizadoCsv:
         writer = csv.writer(anonimizadoCsv, delimiter=";")
-        writer.writerow(["NomeCliente","CPF","RG","Endereco"])
+        writer.writerow(["NomeCliente","CPF","RG","CEP"])
 
         for linha in arquivo:
-            cidade, nomeEscola, nomeCompletoCliente, cpf, rg = linha[0], linha[1], linha[2], linha[3], linha[4]
-            dados_ocultos = anonimizarDados(nomeEscola, cpf, rg, nomeCompletoCliente)
+            nomeCompletoCliente, cpf, rg, cep = linha[0], linha[1], linha[2], linha[3]
+            dados_ocultos = anonimizarDados(cpf, rg, nomeCompletoCliente, cep)
 
             writer.writerow(dados_ocultos)    
         
