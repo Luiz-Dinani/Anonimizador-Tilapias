@@ -44,7 +44,7 @@ def main():
             user_input = input("Insira o código de verificação: ")
             if user_input == str(verification_code):
                 print("Código correto. Acesso permitido.")
-                print("Clientes Anonimizados: https://docs.google.com/spreadsheets/d/152lXpv8n92-HiSGKSK4iGKd5kvnC2u3GmtrbldUlbtU/edit?usp=sharing")
+                print("Clientes Anonimizados: https://docs.google.com/spreadsheets/d/17YOVJR--2xMkAtDlJnpe_ZoiW-ivZuc8yH1PFVdv59Y/edit?usp=sharing")
                 codigoCerto = True
             else:
                 print("Código incorreto. Acesso negado.")
